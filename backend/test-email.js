@@ -1,9 +1,9 @@
-import transporter from './email.js';  // <-- updated filename
 import 'dotenv/config';
+import transporter from './transporter.js';
 
 transporter.sendMail({
   from: process.env.EMAIL_FROM,
-  to: 'your-personal-email@example.com',  // replace with your email
+  to: 'your-personal-email@example.com',  // replace with your personal email
   subject: 'SMTP Test',
   text: 'Hello! SMTP is working with Brevo.'
 })
