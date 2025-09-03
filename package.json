@@ -2,6 +2,7 @@
   "name": "mern-ecommorce",
   "version": "1.0.0",
   "description": "eCommerce web application built with MERN Stack.",
+  "proxy": "http://localhost:5000",
   "type": "module",
   "main": "server.js",
   "scripts": {

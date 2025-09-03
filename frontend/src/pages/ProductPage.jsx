@@ -85,7 +85,12 @@ const addToCartHandler = () => {
           <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                // CORRECTED: Ensure the image path is always prefixed with /uploads/
+                src={`/uploads/${product.image}`}
+                alt={product.name}
+                fluid
+              />
               <Row className='review d-none d-md-block'>
                 <Col>
                   <Reviews
@@ -163,7 +168,7 @@ const addToCartHandler = () => {
                       </Row>
                     </ListGroup.Item>
                   )}
-                  <ListGroupItem>
+                  <ListGroup.Item>
                     <Button
                       className='w-100'
                       variant='warning'
@@ -173,7 +178,7 @@ const addToCartHandler = () => {
                     >
                       Add To Cart
                     </Button>
-                  </ListGroupItem>
+                  </ListGroup.Item>
                 </ListGroup>
               </Card>
             </Col>

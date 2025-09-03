@@ -12,6 +12,8 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
+      // This is okay for a MERN stack.
+      // We will handle the backend side of things to prevent the 401 error.
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
     },
     logout: (state, action) => {

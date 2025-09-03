@@ -1,11 +1,16 @@
-import transporter from './email.js';  // <-- updated filename
+import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
-transporter.sendMail({
-  from: process.env.EMAIL_FROM,
-  to: 'your-personal-email@example.com',  // replace with your email
-  subject: 'SMTP Test',
-  text: 'Hello! SMTP is working with Brevo.'
-})
-.then(() => console.log('Test email sent'))
-.catch(err => console.error('Test email failed:', err));
+// The purpose of this file is to create and export the email transporter.
+// It should not import anything from itself.
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
+  },
+});
+
+export default transporter;

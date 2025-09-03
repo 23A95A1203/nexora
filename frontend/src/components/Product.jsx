@@ -11,8 +11,6 @@ const Product = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
 const addToCartHandler = () => {
   dispatch(addToCart({ ...product, qty }));
   toast.success('Added to cart!');
@@ -27,7 +25,8 @@ const addToCartHandler = () => {
       >
         <Card.Img
           variant='top'
-          src={product.image}
+          // CORRECTED: Prepend the /uploads/ path to the image source
+          src={`/uploads/${product.image}`}
           style={{ height: '200px', objectFit: 'contain' }}
         />
         <Card.Body>
