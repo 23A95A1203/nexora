@@ -41,7 +41,7 @@ const Header = () => {
             <Image
               src="/Nexora.png"
               alt="Nexora"
-              height="40"
+              height="50"
               className="d-inline-block align-top"
               rounded
             />
