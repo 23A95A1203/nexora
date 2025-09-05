@@ -1,5 +1,5 @@
 [build]
-  base = ""                   # Leave empty because frontend folder is base directory in Netlify UI
+  base = ""                   # Leave empty because frontend is the base directory in Netlify UI
   publish = "build"           # React build output folder
   command = "npm install && npm run build"
 
