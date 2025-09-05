@@ -15,25 +15,17 @@ const addOrderItems = async (req, res, next) => {
       shippingPrice,
       totalPrice
     } = req.body;
-    console.log(
-      cartItems,
-      shippingAddress,
-      paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice
-    );
+
     if (!cartItems || cartItems.length === 0) {
-      res.statusCode = 400;
+      res.status(400);
       throw new Error('No order items.');
     }
 
     const order = new Order({
-      user: req.user._id,
-      orderItems: cartItems.map(item => ({
+      user: req.user._id, // comes from protect middleware
+      orderItems: cartItems.map((item) => ({
         ...item,
-        product: item._id
+        product: item._id // store product reference
       })),
       shippingAddress,
       paymentMethod,
@@ -44,7 +36,6 @@ const addOrderItems = async (req, res, next) => {
     });
 
     const createdOrder = await order.save();
-
     res.status(201).json(createdOrder);
   } catch (error) {
     next(error);
@@ -60,7 +51,7 @@ const getMyOrders = async (req, res, next) => {
     const orders = await Order.find({ user: req.user._id });
 
     if (!orders || orders.length === 0) {
-      res.statusCode = 404;
+      res.status(404);
       throw new Error('No orders found for the logged-in user.');
     }
 
@@ -81,7 +72,7 @@ const getOrderById = async (req, res, next) => {
     const order = await Order.findById(orderId).populate('user', 'name email');
 
     if (!order) {
-      res.statusCode = 404;
+      res.status(404);
       throw new Error('Order not found!');
     }
 
@@ -95,13 +86,13 @@ const getOrderById = async (req, res, next) => {
 // @method   PUT
 // @endpoint /api/v1/orders/:id/pay
 // @access   Private
-const updateOrderToPaid = async (req, res) => {
+const updateOrderToPaid = async (req, res, next) => {
   try {
     const { id: orderId } = req.params;
     const order = await Order.findById(orderId);
 
     if (!order) {
-      res.statusCode = 404;
+      res.status(404);
       throw new Error('Order not found!');
     }
 
@@ -115,7 +106,6 @@ const updateOrderToPaid = async (req, res) => {
     };
 
     const updatedOrder = await order.save();
-
     res.status(200).json(updatedOrder);
   } catch (error) {
     next(error);
@@ -126,13 +116,13 @@ const updateOrderToPaid = async (req, res) => {
 // @method   PUT
 // @endpoint /api/v1/orders/:id/deliver
 // @access   Private/Admin
-const updateOrderToDeliver = async (req, res) => {
+const updateOrderToDeliver = async (req, res, next) => {
   try {
     const { id: orderId } = req.params;
     const order = await Order.findById(orderId);
 
     if (!order) {
-      res.statusCode = 404;
+      res.status(404);
       throw new Error('Order not found!');
     }
 
@@ -140,7 +130,6 @@ const updateOrderToDeliver = async (req, res) => {
     order.deliveredAt = new Date();
 
     const updatedDeliver = await order.save();
-
     res.status(200).json(updatedDeliver);
   } catch (error) {
     next(error);
@@ -156,9 +145,10 @@ const getOrders = async (req, res, next) => {
     const orders = await Order.find().populate('user', 'id name');
 
     if (!orders || orders.length === 0) {
-      res.statusCode = 404;
+      res.status(404);
       throw new Error('Orders not found!');
     }
+
     res.status(200).json(orders);
   } catch (error) {
     next(error);

@@ -7,9 +7,10 @@ import { clearCartItems } from '../slices/cartSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { FaIndianRupeeSign } from 'react-icons/fa6';
 import Meta from '../components/Meta';
 import { addCurrency } from '../utils/addCurrency';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const PlaceOrderPage = () => {
   const {
@@ -47,11 +48,12 @@ const PlaceOrderPage = () => {
         totalPrice
       }).unwrap();
       dispatch(clearCartItems());
-      navigate(`/order/${res._id}`);
+      navigate(`/order/${res._id}`); // 👉 Razorpay will open on OrderDetailsPage
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
   };
+
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -60,23 +62,34 @@ const PlaceOrderPage = () => {
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>Shipping </h2>
+              <h2>Shipping</h2>
               <strong>Address:</strong> {shippingAddress.address},{' '}
               {shippingAddress.city}, {shippingAddress.postalCode},{' '}
               {shippingAddress.country}
             </ListGroup.Item>
+
             <ListGroup.Item>
-              <h2>Payment Method </h2>
+              <h2>Payment Method</h2>
               <strong>Method:</strong> {paymentMethod}
             </ListGroup.Item>
+
             <ListGroup.Item>
-              <h2>Order Items </h2>
+              <h2>Order Items</h2>
               <ListGroup variant='flush'>
                 {cartItems.map(item => (
                   <ListGroup.Item key={item._id}>
                     <Row>
                       <Col md={2}>
-                        <Image src={item.image} alt={item.name} fluid rounded />
+                        <Image
+                          src={
+                            item.image.startsWith('http')
+                              ? item.image
+                              : `${API_URL}${item.image.startsWith('/') ? item.image : `/${item.image}`}`
+                          }
+                          alt={item.name}
+                          fluid
+                          rounded
+                        />
                       </Col>
                       <Col md={6}>
                         <Link
@@ -98,6 +111,7 @@ const PlaceOrderPage = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
+
         <Col md={4}>
           <Card>
             <ListGroup variant='flush'>
@@ -137,6 +151,7 @@ const PlaceOrderPage = () => {
                 >
                   Place Order
                 </Button>
+                {isLoading && <Loader />}
               </ListGroup.Item>
             </ListGroup>
           </Card>

@@ -27,20 +27,22 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set up the correct path for static files to ensure images are served correctly
+// ✅ Serve static uploads correctly
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, 'backend', 'uploads')));
+
 
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/payment', paymentRoutes);
+
 //-------------------------------------
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
-  //any app route that is not api will redirected to index.html
+  // Any app route that is not API will redirect to index.html
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
   });

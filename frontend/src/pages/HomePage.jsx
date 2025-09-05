@@ -18,7 +18,8 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(0);
   const [skip, setSkip] = useState(0);
-  const { search } = useSelector(state => state.search);
+ const search = useSelector((state) => state.search.search);
+
 
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
