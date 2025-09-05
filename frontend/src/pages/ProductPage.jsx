@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import {
-  Row,
-  Col,
-  ListGroup,
   Button,
-  Image,
   Card,
+  Col,
   Form,
-  ListGroupItem
+  Image,
+  ListGroup,
+  Row
 } from 'react-bootstrap';
-import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useGetProductDetailsQuery,
-  useCreateProductReviewMutation
-} from '../slices/productsApiSlice';
-import { addToCart } from '../slices/cartSlice';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
-import { addCurrency } from '../utils/addCurrency';
+import Rating from '../components/Rating';
 import Reviews from '../components/Reviews';
+import { addToCart } from '../slices/cartSlice';
+import {
+  useCreateProductReviewMutation,
+  useGetProductDetailsQuery
+} from '../slices/productsApiSlice';
+import { addCurrency } from '../utils/addCurrency';
 
 const ProductPage = () => {
   const { id: productId } = useParams();

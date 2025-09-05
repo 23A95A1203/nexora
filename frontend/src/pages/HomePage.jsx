@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Row, Col } from 'react-bootstrap';
-import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { Col, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useGetProductsQuery } from '../slices/productsApiSlice';
 
-import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import Paginate from '../components/Paginate';
-import ProductCarousel from '../components/ProductCarousel';
-import ServerError from '../components/ServerError';
 import Meta from '../components/Meta';
+import Paginate from '../components/Paginate';
+import Product from '../components/Product';
+import ProductCarousel from '../components/ProductCarousel';
 
 const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
