@@ -35,13 +35,6 @@ const CartPage = () => {
     navigate('/login?redirect=/shipping');
   };
 
-  // ✅ Helper to ensure full image URL
- const getImageUrl = (img) => {
-  if (!img) return ''; // fallback
-  return img.startsWith('http') ? img : `http://localhost:5000${img}`;
-};
-
-
   return (
     <>
       <Meta title={'Shopping Cart'} />
@@ -58,8 +51,8 @@ const CartPage = () => {
                 <ListGroup.Item className="my-3" key={item._id}>
                   <Row>
                     <Col md={2}>
-                      <Image src={getImageUrl(item.image)} alt={item.name} fluid rounded />
-
+                      {/* ✅ Full URL from Redux */}
+                      <Image src={item.image} alt={item.name} fluid rounded />
                     </Col>
                     <Col md={3}>
                       <Link
@@ -79,14 +72,11 @@ const CartPage = () => {
                           addToCartHandler(item, Number(e.target.value))
                         }
                       >
-                        {Array.from(
-                          { length: item.countInStock },
-                          (_, i) => (
-                            <option key={i + 1} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          )
-                        )}
+                        {Array.from({ length: item.countInStock }, (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}
+                          </option>
+                        ))}
                       </Form.Control>
                     </Col>
                     <Col md={2}>
