@@ -1,0 +1,13 @@
+[build]
+  # Base directory where your frontend code lives
+  base = "frontend"
+  # Build command
+  command = "CI=false npm run build"
+  # Publish directory after build
+  publish = "frontend/build"
+
+[[redirects]]
+  # Redirect all routes to index.html for React Router
+  from = "/*"
+  to = "/index.html"
+  status = 200
