@@ -1,6 +1,6 @@
 [build]
-  base = "frontend"    # frontend folder is the base
-  publish = "build"    # relative to the base
+  base = ""                # Leave empty
+  publish = "frontend/build"  # Points directly to your React build output
   command = "npm install && npm run build"
 
 [dev]
