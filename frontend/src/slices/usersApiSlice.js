@@ -3,6 +3,7 @@ import { apiSlice } from './apiSlice';
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    // Login
     login: builder.mutation({
       query: data => ({
         url: `${USERS_URL}/login`,
@@ -11,6 +12,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Logout
     logout: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
@@ -18,6 +21,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Register
     register: builder.mutation({
       query: data => ({
         url: `${USERS_URL}`,
@@ -26,6 +31,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Password reset request
     newPasswordRequest: builder.mutation({
       query: data => ({
         url: `${USERS_URL}/reset-password/request`,
@@ -34,6 +41,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Reset password
     resetPassword: builder.mutation({
       query: ({ userId, token, password }) => ({
         url: `${USERS_URL}/reset-password/reset/${userId}/${token}`,
@@ -42,6 +51,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Update user profile
     profile: builder.mutation({
       query: data => ({
         url: `${USERS_URL}/profile`,
@@ -50,30 +61,32 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Get user profile
     getUserProfile: builder.query({
-      query: async () => ({
-        url: `${USERS_URL}/profile`
-      }),
+      query: () => `${USERS_URL}/profile`,
       providesTags: ['User']
     }),
+
+    // Get all users (admin)
     getUsers: builder.query({
-      query: () => ({
-        url: USERS_URL
-      }),
+      query: () => USERS_URL,
       providesTags: ['User']
     }),
+
+    // Get all admins
     admins: builder.query({
-      query: () => ({
-        url: `${USERS_URL}/admins`
-      }),
+      query: () => `${USERS_URL}/admins`,
       providesTags: ['User']
     }),
+
+    // Get user by ID (admin)
     getUserById: builder.query({
-      query: userId => ({
-        url: `${USERS_URL}/${userId}`
-      }),
+      query: userId => `${USERS_URL}/${userId}`,
       providesTags: ['User']
     }),
+
+    // Delete user
     deleteUser: builder.mutation({
       query: userId => ({
         url: `${USERS_URL}/${userId}`,
@@ -81,6 +94,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+
+    // Update user (admin)
     updateUser: builder.mutation({
       query: ({ userId, ...userData }) => ({
         url: `${USERS_URL}/${userId}`,

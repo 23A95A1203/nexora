@@ -1,5 +1,5 @@
-import { PRODUCTS_URL, UPLOAD_URL } from '../constants';
 import { apiSlice } from './apiSlice';
+import { PRODUCTS_URL, UPLOAD_URL } from '../constants';
 
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -11,15 +11,11 @@ export const productApiSlice = apiSlice.injectEndpoints({
       providesTags: ['Product']
     }),
     getTopProducts: builder.query({
-      query: () => ({
-        url: `${PRODUCTS_URL}/top`
-      }),
+      query: () => `${PRODUCTS_URL}/top`,
       providesTags: ['Product']
     }),
     getProductDetails: builder.query({
-      query: productId => ({
-        url: `${PRODUCTS_URL}/${productId}`
-      }),
+      query: productId => `${PRODUCTS_URL}/${productId}`,
       providesTags: ['Product']
     }),
     createProduct: builder.mutation({

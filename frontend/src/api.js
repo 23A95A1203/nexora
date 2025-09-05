@@ -1,11 +1,10 @@
-import axios from "axios";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import BASE_URL from '../constants';
 
-// Create an Axios instance with your backend base URL
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // picks the backend from your .env
-  headers: {
-    "Content-Type": "application/json",
-  },
+export const apiSlice = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ['User', 'Product', 'Order'],
+  endpoints: builder => ({})
 });
 
-export default api;
+export default apiSlice;
