@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
@@ -13,12 +12,17 @@ import ProductCarousel from '../components/ProductCarousel';
 
 const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(4); // fixed default limit
+  const [skip, setSkip] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(0);
-  const [skip, setSkip] = useState(0);
- const search = useSelector((state) => state.search.search);
 
+  const search = useSelector((state) => state.search.search);
+
+  // Update skip whenever currentPage or limit changes
+  useEffect(() => {
+    setSkip((currentPage - 1) * limit);
+  }, [currentPage, limit]);
 
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
@@ -26,16 +30,15 @@ const HomePage = () => {
     search
   });
 
+  // Update total pages after fetching data
   useEffect(() => {
     if (data) {
-      setLimit(4);
-      setSkip((currentPage - 1) * limit);
       setTotal(data.total);
-      setTotalPage(Math.ceil(total / limit));
+      setTotalPage(Math.ceil(data.total / limit));
     }
-  }, [currentPage, data, limit, total, search]);
+  }, [data, limit]);
 
-  const pageHandler = pageNum => {
+  const pageHandler = (pageNum) => {
     if (pageNum >= 1 && pageNum <= totalPage && pageNum !== currentPage) {
       setCurrentPage(pageNum);
     }
@@ -46,7 +49,7 @@ const HomePage = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>
+        <Message variant="danger">
           {error?.data?.message || error.error}
         </Message>
       ) : (
@@ -55,7 +58,7 @@ const HomePage = () => {
           <Meta />
           <h1>Latest Products</h1>
           <Row>
-            {data.products.map(product => (
+            {data?.products?.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>

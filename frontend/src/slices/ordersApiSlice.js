@@ -1,4 +1,4 @@
-import { ORDERS_URL, RAZORPAY_URL } from '../constants';
+import { ORDERS_URL, PAYMENT_URL } from '../constants';
 import { apiSlice } from './apiSlice';
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
@@ -40,7 +40,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     getRazorpayApiKey: builder.query({
       query: () => ({
-        url: `${RAZORPAY_URL}/razorpay/config`
+        url: `${PAYMENT_URL}/razorpay/config` // ✅ use PAYMENT_URL instead
       }),
       providesTags: ['Order']
     }),
